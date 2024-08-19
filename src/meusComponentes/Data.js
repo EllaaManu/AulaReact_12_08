@@ -8,24 +8,37 @@ export default class Data extends Component {
 
         super(); // executa do cosntrutor do pai
         this.props = props;
-        this.dataAtual = new Date().toLocaleString();
+        // data é um estado do componente
+        this.state = {
+            dataAtual : new Date().toLocaleString()
+        };
     }
 
     //fase de montagem 
     componentDidMount(){
         console.log("COmponeete muuntado");
+        // m é possivel att o componente de forma direta
+        // this.setState =
+        this.setState({
+            dataAtual: new Date().toLocaleString()
+        })
     }
 
     componentDidUpdate() {
         console.log("COmponeete atumliado");
+        setTimeout(()=> {
+            this.setState({
+                dataAtual: new Date().toLocaleString()
+            });
+        }, 1000);
 
     }
 
     //sobreeescrtre do metodo
     render(){
         return (
-            // se nao exibe props exibe hehehehehehe
-            <h1> {this.props.texto || "hehehehehe"} {this.dataAtual}</h1>
+            
+            <h1> {this.props.texto || "hehehehehe"} {this.state.dataAtual}</h1>
         )
     }
 
