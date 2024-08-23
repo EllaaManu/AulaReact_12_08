@@ -8,27 +8,32 @@ export default class Data extends Component {
 
         super(); // executa do cosntrutor do pai
         this.props = props;
-        // data é um estado do componente
         this.state = {
-            dataAtual : new Date().toLocaleString()
+            dataAtual: new Date().toLocaleString()
         };
+    }
+
+    pegaData(timezone){
+        const dataAtual = new Date();
+        let timeZoneFromDB = PaymentResponse(timezone);
+        let difTempo = timeZoneFromDB * 60 + dataAtual.getTimezoneOffset();
+        let ml = parseInt(dataAtual.getTime() + (difTempo * 60 * 1000));
+        const dataNova = new Date(ml);
+        return dataNova;
     }
 
     //fase de montagem 
     componentDidMount(){
-        console.log("COmponeete muuntado");
-        // m é possivel att o componente de forma direta
-        // this.setState =
         this.setState({
-            dataAtual: new Date().toLocaleString()
-        })
+            dataAtual : new Date().toLocaleString()
+        });
     }
 
     componentDidUpdate() {
         console.log("COmponeete atumliado");
-        setTimeout(()=> {
+        setTimeout(() => {
             this.setState({
-                dataAtual: new Date().toLocaleString()
+                dataAtual : new Date().toLocaleString()
             });
         }, 1000);
 
@@ -37,8 +42,8 @@ export default class Data extends Component {
     //sobreeescrtre do metodo
     render(){
         return (
-            
-            <h1> {this.props.texto || "hehehehehe"} {this.state.dataAtual}</h1>
+            // se nao exibe props exibe hehehehehehe
+            <h1> {this.props.texto || "hehehehehe"} {this.dataAtual}</h1>
         )
     }
 
