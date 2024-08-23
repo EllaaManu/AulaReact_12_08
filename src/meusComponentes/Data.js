@@ -8,16 +8,34 @@ export default class Data extends Component {
 
         super(); // executa do cosntrutor do pai
         this.props = props;
-        this.dataAtual = new Date().toLocaleString();
+        this.state = {
+            dataAtual: new Date().toLocaleString()
+        };
+    }
+
+    pegaData(timezone){
+        const dataAtual = new Date();
+        let timeZoneFromDB = PaymentResponse(timezone);
+        let difTempo = timeZoneFromDB * 60 + dataAtual.getTimezoneOffset();
+        let ml = parseInt(dataAtual.getTime() + (difTempo * 60 * 1000));
+        const dataNova = new Date(ml);
+        return dataNova;
     }
 
     //fase de montagem 
     componentDidMount(){
-        console.log("COmponeete muuntado");
+        this.setState({
+            dataAtual : new Date().toLocaleString()
+        });
     }
 
     componentDidUpdate() {
         console.log("COmponeete atumliado");
+        setTimeout(() => {
+            this.setState({
+                dataAtual : new Date().toLocaleString()
+            });
+        }, 1000);
 
     }
 
