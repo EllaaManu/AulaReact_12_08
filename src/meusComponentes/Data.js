@@ -1,50 +1,44 @@
-import { Component } from "react";
+import { Component }from "react";
 
+export default class Data extends Component{
 
-export default class Data extends Component {
-
-    // props = aquio que o app.js tem dentro da tag do html ali
-    constructor(props) {
-
-        super(); // executa do cosntrutor do pai
+    constructor(props){
+        super(); //executa o construtor do pai
         this.props = props;
         this.state = {
-            dataAtual: new Date().toLocaleString()
-        };
+                        dataAtual : new Date().toLocaleString()
+                     }       
     }
 
-    pegaData(timezone){
+    pegaDataDe(timeZone){
         const dataAtual = new Date();
-        let timeZoneFromDB = PaymentResponse(timezone);
-        let difTempo = timeZoneFromDB * 60 + dataAtual.getTimezoneOffset();
-        let ml = parseInt(dataAtual.getTime() + (difTempo * 60 * 1000));
-        const dataNova = new Date(ml);
-        return dataNova;
+        let timeZoneFromDB = parseInt(timeZone); 
+        let diferencaTempo = timeZoneFromDB * 60 + dataAtual.getTimezoneOffset();
+        let milisegundos = parseInt(dataAtual.getTime() + (diferencaTempo * 60 * 1000));
+        const data = new Date(milisegundos);
+        return data
     }
 
-    //fase de montagem 
+    //fase de montagem
     componentDidMount(){
+        //Não é permitido atualizar o estado do componente de forma direta
+        //this.state =  ...
         this.setState({
-            dataAtual : new Date().toLocaleString()
+           dataAtual: new Date().toLocaleString() 
         });
     }
 
-    componentDidUpdate() {
-        console.log("COmponeete atumliado");
-        setTimeout(() => {
-            this.setState({
-                dataAtual : new Date().toLocaleString()
-            });
-        }, 1000);
-
+    componentDidUpdate(){
+        setTimeout(()=>{
+        this.setState({
+                dataAtual: this.pegaDataDe(this.props.timeZone).toLocaleString() 
+        });
+        },1000);
     }
-
-    //sobreeescrtre do metodo
+    //sobrescrita de método
     render(){
         return (
-            // se nao exibe props exibe hehehehehehe
-            <h1> {this.props.texto || "hehehehehe"} {this.dataAtual}</h1>
+            <h1>{ this.props.texto || ""}{this.state.dataAtual}</h1>
         )
     }
-
 }
